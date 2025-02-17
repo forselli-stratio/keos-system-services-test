@@ -1,0 +1,44 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: keos
+  namespace: kube-system
+spec:
+  interval: 10m
+  provider: generic
+  type: default
+  url: http://qa.int.stratio.com/repository/helm-14.7
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: vpa
+  namespace: kube-system
+spec:
+  chart:
+    spec:
+      chart: vpa
+      interval: 1m
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: keos
+        namespace: kube-system
+      version: 1.7.5
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  interval: 1m
+  releaseName: vpa
+  timeout: 10m
+  upgrade:
+    crds: CreateReplace
+    force: false
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+  valuesFrom:
+  - kind: ConfigMap
+    name: 00-vpa-helm-chart-default-values
+    valuesKey: values.yaml
