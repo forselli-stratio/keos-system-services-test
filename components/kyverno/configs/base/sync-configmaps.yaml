@@ -18,6 +18,7 @@ spec:
               kinds:
                 - v1/Namespace
       generate:
+        apiVersion: v1
         namespace: "{{request.object.metadata.name}}"
         synchronize: true
         cloneList:
