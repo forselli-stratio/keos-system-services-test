@@ -1,0 +1,117 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: 02-stratio-panel-ui-helm-chart-override-values
+data:
+  values.yaml: |-
+    ---
+    config: |
+      {
+          "vars": {
+            "USER_DETAIL_API_URL": "https://{{ .Values.adminUrl }}/cct/ui/v1/user/detail",
+              "AUTO_DISCOVER_API_URL": "https://{{ .Values.adminUrl }}/cct/cct-applications-query/v1/applications/featured/ready",
+              "AUTO_DISCOVER_WS": "wss://{{ .Values.adminUrl }}/cct/cct-applications-query/stomp",
+              "AUTO_DISCOVER_WS_DESTINATION": "/app/featured",
+              "AUTO_DISCOVER_WS_TOPIC": "/user/topic/featured",
+              "DEFAULT_LANGUAGE": "en",
+              "LANGUAGE_COOKIE": "lang"
+          },
+          "i18n": {
+             "en": {
+                "APPLICATIONS": "Applications",
+                "CLOUD_STORAGE": "Upload data to S3",
+                "GOVERNANCE": "Manage your knowledge",
+                "GOSEC": "Protect your data",
+                "GENAI": "Talk to your data",
+                "DISCOVERY": "Explore & analize",
+                "SUPPORT": "Support",
+                "HELP_CENTER": "Help Center"
+             },
+            "es": {
+                "APPLICATIONS": "Applicaciones",
+                "CLOUD_STORAGE": "Subir datos a S3",
+                "GOVERNANCE": "Gestiona tu conocimiento",
+                "GOSEC": "Protege tus datos",
+                "GENAI": "Habla con tus datos",
+                "DISCOVERY": "Explorar y analizar",
+                "SUPPORT": "Soporte",
+                "HELP_CENTER": "Centro de ayuda"
+            }
+          },
+          "sections": [
+              {
+                  "children": [
+                      {
+                          "name": "Home",
+                          "service": "home",
+                          "url": "https://{{ .Values.adminUrl }}/"
+                      }
+                  ]
+              },
+              {
+                  "children": [
+                      {
+                          "name": "Cloud Storage",
+                          "service": "cloud",
+                          "image":"cloud-storage-mkt",
+                          "allowedGroups": ["admin", "stratio-users", "stratio-stratio-owners", "stratio-semantic-users"],
+                          "url": "https://us-east-1.console.aws.amazon.com/s3/home",
+                          "external": true
+                      },
+                      {
+                          "name": "Governance",
+                          "service": "governance",
+                          "image":"governance-mkt",
+                          "allowedGroups": ["admin", "stratio-users", "stratio-stratio-owners", "stratio-semantic-users"],
+                          "url": "https://{{ .Values.adminUrl }}/governance-ui"
+                      },
+                      {
+                          "name": "Gosec",
+                          "service": "gosec",
+                          "image":"gosec-mkt",
+                          "allowedGroups": ["admin", "stratio-users", "stratio-stratio-owners", "stratio-semantic-users"],
+                          "url": "https://{{ .Values.adminUrl }}/gosec/ui/#/identities/users"
+                      },
+                      {
+                          "name": "GenAI",
+                          "service": "genai",
+                          "image":"genai-mkt",
+                          "allowedGroups": ["admin", "stratio-users", "stratio-stratio-owners", "stratio-ai-users", "stratio-semantic-users"],
+                          "oneChildLinkOverride": true,
+                          "autoDiscovered": true,
+                          "allowed": [
+                              "genai"
+                          ]
+                      },
+                      {
+                          "name": "Discovery",
+                          "service": "discovery",
+                          "image":"discovery-mkt",
+                          "allowedGroups": ["admin", "stratio-users", "stratio-stratio-owners", "stratio-semantic-users", "stratio-ai-users"],
+                          "oneChildLinkOverride": true,
+                          "autoDiscovered": true,
+                          "allowed": [
+                              "discovery"
+                          ]
+                      }
+                  ]
+              },
+              {
+                  "children": [
+                      {
+                          "name": "Support",
+                          "service": "support",
+                          "image":"help-center",
+                          "url": "https://stratio.atlassian.net/servicedesk/customer/portals",
+                          "external": true
+                      },
+                      {
+                          "name": "Help Center",
+                          "service": "help-center",
+                          "url": "https://www.stratio.com/documentation/talk-to-your-data/",
+                          "external": true
+                      }
+                  ]
+              }
+          ]
+      }
