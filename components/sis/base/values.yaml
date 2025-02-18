@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: 02-sis-helm-chart-override-values
+data:
+  values.yaml: |-
+    # Already implemented in keos-installer versions > 1.1.3
+    livenessProbe:
+      httpGet:
+        path: /sso/actuator/health/liveness
+        port: 9105
+        scheme: HTTP
+      initialDelaySeconds: 60
+      timeoutSeconds: 1
+      periodSeconds: 45
+      successThreshold: 1
+      failureThreshold: 12
+    readinessProbe:
+      httpGet:
+        path: /sso/actuator/health/readiness
+        port: 9105
+        scheme: HTTP
+      initialDelaySeconds: 30
+      timeoutSeconds: 1
+      periodSeconds: 30
+      successThreshold: 1
+      failureThreshold: 10
