@@ -8,7 +8,7 @@ data:
     gosec-authz:
       config:
         CACHE_ENABLED: "false"
-        DYPLON_CACHE_ENABLED: "false"
+        DYPLON_CACHE_ENABLED: "true"
     gosec-services-daas:
       config:
         CACHE_ENABLED: "false"
