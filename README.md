@@ -15,8 +15,7 @@ This repository is used to define the Kubernetes system services components such
 - Observability components
 - Stratio core applications such as Gosec, Command Center...
 
-This repository is reconciled on the cluster fleet by Flux as the **cluster admin**. Access to this repository is restricted to the Platform team and the
-[Flux bot account](https://github.com/forselli-stratio/keos-fleet-test?tab=readme-ov-file#github-account-for-flux).
+This repository is reconciled on the cluster fleet by Flux as the **cluster admin**. Access to this repository is restricted to the Platform team and the [Flux bot account](https://github.com/forselli-stratio/keos-fleet-test?tab=readme-ov-file#github-account-for-flux).
 
 ## Repository Structure
 
